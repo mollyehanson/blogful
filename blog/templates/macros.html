@@ -1,17 +1,21 @@
-{% macro render_entry(entry) %}
+{% macro render_post(post) %}
 <div class="row">
     <div class="col-md-2 text-right metadata">
         <ul class="list-unstyled">
             <li>
-                {{ entry.datetime | dateformat("%d/%m/%y") }}
+                {{ post.datetime | dateformat("%d/%m/%y") }}
             </li>
         </ul>
     </div>
     <div class="col-md-10">
         <h1>
-            {{ entry.title }}
+            <a href="/post/{{post.id}}"> {{ post.title }}</a>
         </h1>
-        {{ entry.content | markdown }}
+        {{ post.content | safe }}
+        <h4>
+            <a href="/post/{{post.id}}/edit">edit</a>
+            <a href="/post/{{post.id}}/delete">delete</a>
+        </h4>    
     </div>
 </div>
 {% endmacro %}

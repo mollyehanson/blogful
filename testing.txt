@@ -1,0 +1,22 @@
+/entry/<id>
+
+views.py 
+@app.route('/entry/<id>')
+def entry(id):
+    entry = Entry.query.filter_by(id=id).first_or_404()
+    return render_template('entry.html', entry=entry)
+
+
+entries.html
+{% for entry in entries %}
+<ul class="entry">
+    { macros.render_entry(entry) }
+    <a href={{ url_for('entries', 'id' }}</a></a>
+</ul>
+
+/entry/<id>/edit
+
+views.py
+@app.route('/entry/<id>/edit')
+def entry_edit(id):
+    entry = Entry.query

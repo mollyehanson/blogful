@@ -13,8 +13,8 @@ import datetime
 
 from sqlalchemy import Column, Integer, String, Text, DateTime
 
-class Entry(Base):
-    __tablename__ = "entries"
+class Post(Base):
+    __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True)
     title = Column(String(1024))
