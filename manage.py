@@ -1,9 +1,21 @@
 import os
+#use flask-script to automate tasks to manage applications
 from flask_script import Manager
 
+#Use app object from __init__
 from blog import app
 
+#Import database connection session and database table Post
 from blog.database import session, Post
+
+# Libraries/objects to manage users
+from getpass import getpass
+from werkzeug.security import generate_password_hash
+from blog.database import User
+
+# Libraries/objects to manage db migration using Flask-Migrate/Alembic
+from flask_migrate import Migrate, MigrateCommand
+from blog.database import Base
 
 manager = Manager(app)
 
@@ -23,6 +35,31 @@ def seed():
         )
         session.add(post)
     session.commit()
+
+@manager.command
+def adduser():
+    name = raw_input("Name: ")
+    email = raw_input("Email: ")
+    if session.query(User).filter_by(email=email).first():
+        print("User with that email address already exists")
+        return
+
+    password = ""
+    password_2 = ""
+    while len(password) < 8 or password != password_2:
+        password = getpass("Password: ")
+        password_2 = getpass("Re-enter password: ")
+    user = User(name=name, email=email,
+                password=generate_password_hash(password))
+    session.add(user)
+    session.commit()
+
+class DB(object):
+    def __init__(self, metadata):
+        self.metadata = metadata
+
+migrate = Migrate(app, DB(Base.metadata))
+manager.add_command('db', MigrateCommand)
 
 if __name__ == "__main__":
     manager.run()

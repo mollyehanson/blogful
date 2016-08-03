@@ -4,6 +4,8 @@
         <ul class="list-unstyled">
             <li>
                 {{ post.datetime | dateformat("%d/%m/%y") }}
+                <br>
+                {{ post.author.name }}
             </li>
         </ul>
     </div>
