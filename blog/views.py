@@ -8,7 +8,7 @@ from flask import request, redirect, url_for
 
 # objects for flask login
 from flask import flash
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import check_password_hash
 from .database import User
 
@@ -122,3 +122,9 @@ def login_post():
 
     login_user(user)
     return redirect(request.args.get('next') or url_for("posts"))
+    
+# Logout
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("login_get"))
