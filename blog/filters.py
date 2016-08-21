@@ -1,4 +1,4 @@
-from . import app
+from blog import app
 from flask import Markup
 import mistune as md
 
